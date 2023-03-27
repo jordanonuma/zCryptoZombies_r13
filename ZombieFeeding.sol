@@ -14,10 +14,12 @@ contract KittyInterface {
         uint256 sireId,
         uint256 generation,
         uint256 genes
-    ) //end function getKitty()
+    ); //end function getKitty()
 } //end contract KittyInterface{}
 
 contract ZombieFeeding is ZombieFactory {
+    address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
+    
     function feedAndMultiply(uint _zombieId, uint _targetDna) public {
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
