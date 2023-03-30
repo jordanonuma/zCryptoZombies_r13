@@ -29,12 +29,15 @@ contract ZombieFeeding is ZombieFactory {
         Zombie storage myZombie = zombies[_zombieId];
         _targetDna = _targetDna % dnaModulus;
         uint newDna = (myZombie.dna + _targetDna) / 2;
+        if(keccak256(abi.encodePacked(_species)) == keccak256(abi.encodePacked("kitty"))) {
+            newDna = newDna - newDna % 100 + 99;
+        } //end if()
         _createZombie("NoName", newDna);
     } //end function feedAndMultiply()
 
-    function feedOnKitty(uint _zombieId, uint _kittyId) public {
+    function feedOnKitty(uint _zombieId, uint _kittyId, string memory _species) public {
         uint kittyDna;
         (,,,,,,,,,kittyDna) = kittyContract.getKitty(_kittyId);
-        feedAndMultiply(_zombieId, kittyDna);
+        feedAndMultiply(_zombieId, kittyDna, "kitty");
     } //end function feedOnKitty()
 } //end contract ZombieFeeding{}
