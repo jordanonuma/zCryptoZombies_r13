@@ -32,15 +32,17 @@ contract ZombieFeeding is ZombieFactory {
         return (_zombie.readyTime <= now);
     } //end function _isReady()
 
-    function feedAndMultiply(uint _zombieId, uint _targetDna) public {
+    function feedAndMultiply(uint _zombieId, uint _targetDna) internal {
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
+        require(_isReady(myZombie));
         _targetDna = _targetDna % dnaModulus;
         uint newDna = (myZombie.dna + _targetDna) / 2;
         if(keccak256(abi.encodePacked(_species)) == keccak256(abi.encodePacked("kitty"))) {
             newDna = newDna - newDna % 100 + 99;
         } //end if()
         _createZombie("NoName", newDna);
+        _triggerCooldown(myZombie);
     } //end function feedAndMultiply()
 
     function feedOnKitty(uint _zombieId, uint _kittyId, string memory _species) public {
