@@ -38,5 +38,9 @@ contract ZombieFactory is Ownable {
         uint randDna = _generateRandomDna(_name);
         _createZombie(_name, randDna);
     } //end function createRandomZombie()
+
+    function getZombiesByOwner(address _owner) external view returns(uint[] memory){
+
+    } //end function getZombiesByOwner()
 } //end contract ZombieFactory{}
 
