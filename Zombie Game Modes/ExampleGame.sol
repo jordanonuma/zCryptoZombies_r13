@@ -61,11 +61,13 @@ contract ExampleGame is ZBGameMode  {
                     cardCount++;
                 } //end if()
             } //end for(j)
+
+            changes.changePlayerCardsInDeck(Player.Player1, newCards, cardCount);
         } //end for(i)
     } //end function beforeMatchStart()
 
     function isLegalCard(CardInstance card) internal view returns(bool) {
-        return(!bannedCard[card.mouldname]);
+        return(!bannedCards[card.mouldName]);
     } //end function isLegalCard()
 
 } //end contract ExampleGame{}
