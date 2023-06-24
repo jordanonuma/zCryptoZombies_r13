@@ -29,7 +29,7 @@ contract ExampleGame is ZBGameMode  {
     } //end function beforeMatchStart()
 
     function isLegalCard(CardInstance card) internal view returns(bool) {
-
+        return (card.gooCost <= 2);
     } //end function isLegalCard()
 
 } //end contract ExampleGame{}
