@@ -1,4 +1,5 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
+const LoomTruffleProvider = require('loom-truffle-provider');
 
 // Set your own mnemonic here
 const mnemonic = "YOUR_MNEMONIC";
@@ -27,5 +28,16 @@ module.exports = {
             // Setting the provider with the Infura Rinkeby address and Token
             return new HDWalletProvider(mnemonic, "https://rinkeby.infura.io/v3/YOUR_TOKEN")
         },
+
+        loom_testnet: {
+            provider: function() {
+              const privateKey = 'YOUR_PRIVATE_KEY'
+              const chainId = 'extdev-plasma-us1';
+              const writeUrl = 'http://extdev-plasma-us1.dappchains.com:80/rpc';
+              const readUrl = 'http://extdev-plasma-us1.dappchains.com:80/query';
+              return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+              },
+            network_id: '9545242630824'
+        }
     }
 };
