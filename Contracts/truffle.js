@@ -31,12 +31,15 @@ module.exports = {
 
         loom_testnet: {
             provider: function() {
-              const privateKey = 'YOUR_PRIVATE_KEY'
-              const chainId = 'extdev-plasma-us1';
-              const writeUrl = 'http://extdev-plasma-us1.dappchains.com:80/rpc';
-              const readUrl = 'http://extdev-plasma-us1.dappchains.com:80/query';
-              return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
-              },
+                const privateKey = 'YOUR_PRIVATE_KEY'
+                const chainId = 'extdev-plasma-us1';
+                const writeUrl = 'http://extdev-plasma-us1.dappchains.com:80/rpc';
+                const readUrl = 'http://extdev-plasma-us1.dappchains.com:80/query';
+                return new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+                const loomTruffleProvider = new LoomTruffleProvider(chainId, writeUrl, readUrl, privateKey);
+                loomTruffleProvider.createExtraAccountsFromMnemonic(mnemonic, 10);
+                return loomTruffleProvider;
+            },
             network_id: '9545242630824'
         }
     }
