@@ -40,6 +40,8 @@ async function addRequestToQueue (event) {
 async function processQueue (oracleContract, ownerAddress) {
     let processedRequests = 0
     while (pendingRequests.length > 0 && processedRequests < CHUNK_SIZE) {
-     
+        const req = pendingRequests.shift()
+        await processRequest(oracleContract, ownerAddress, req.id, req.callerAddress)
+        processedRequests++
     } //end while()
 } //end function processQueue()
