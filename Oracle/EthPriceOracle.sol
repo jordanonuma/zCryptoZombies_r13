@@ -10,10 +10,13 @@ contract EthPriceOracle is Ownable {
 
     uint private randNonce = 0;
     uint private modulus = 1000;
+    uint private numOracles = 0;
+
     mapping(uint256=>bool) pendingRequests;
     event GetLatestEthPriceEvent(address callerAddress, uint id);
     event SetLatestEthPriceEvent(uint256 ethPrice, address callerAddress);
     event AddOracleEvent(address oracleAddress);
+    event RemoveOracleEvent(address oracleAddress);
 
     constructor (address _owner) public {
         owners.add(_owner);
@@ -30,7 +33,11 @@ contract EthPriceOracle is Ownable {
     function removeOracle(address _oracle) public {
         require(owners.has(msg.sender), "Not an owner!");
         require(oracles.has(_oracle), "Not an oracle!");
-     
+        require(numOracles > 1, "Do not remove the last oracle!");
+        
+        oracles.remove(_oracle);
+        numOracles--;
+        emit RemoveOracleEvent(_oracle);
     } //end function removeOracle()
 
     function getLatestEthPrice() public returns(uint256) {
