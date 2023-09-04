@@ -11,6 +11,7 @@ contract EthPriceOracle is Ownable {
     uint private randNonce = 0;
     uint private modulus = 1000;
     uint private numOracles = 0;
+    uint private THRESHOLD = 0;
 
     mapping(uint256=>bool) pendingRequests;
     struct Response {
@@ -61,11 +62,13 @@ contract EthPriceOracle is Ownable {
         Response memory resp;
         resp = Response(msg.sender, _callerAddress, _ethPrice);
         requestIdToResponse[_id].push(resp);
-        delete pendingRequests[_id];
-
-        CallerContractInterface callerContractInstance;
-        callerContractInstance = CallerContractInterface(_callerAddress);
-        callerContractInstance.callback(_ethPrice, _id);
-        emit SetLatestEthPriceEvent(_ethPrice, _callerAddress);
+        uint numResponses = requestIdToResponse[_id].length;
+        if (numResponses == THRESHOLD) {
+            delete pendingRequests[_id];
+            CallerContractInterface callerContractInstance;
+            callerContractInstance = CallerContractInterface(_callerAddress);
+            callerContractInstance.callback(_ethPrice, _id);
+            emit SetLatestEthPriceEvent(_ethPrice, _callerAddress);
+        } //end if()
     } //end function setLatestEthPrice()
 } //end contract EthPriceOracle{}
