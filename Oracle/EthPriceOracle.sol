@@ -13,6 +13,12 @@ contract EthPriceOracle is Ownable {
     uint private numOracles = 0;
 
     mapping(uint256=>bool) pendingRequests;
+    struct Response {
+        address oracleAddress;
+        address callerAddress;
+        uint256 ethPrice;
+    }
+    
     event GetLatestEthPriceEvent(address callerAddress, uint id);
     event SetLatestEthPriceEvent(uint256 ethPrice, address callerAddress);
     event AddOracleEvent(address oracleAddress);
@@ -50,7 +56,11 @@ contract EthPriceOracle is Ownable {
     } //end function getLatestEthPrice()
 
     function setLatestEthPrice(uint256 _ethPrice, address _callerAddress, uint256 _id) public onlyOwner {
+        require(oracles.has(msg.sender), "Not an oracle!");
         require(pendingRequests[_id], "This request is not in my pending list.");
+        Response memory resp;
+        resp = Response(msg.sender, _callerAddress, _ethPrice);
+        requestIdToResponse[_id].push(resp);
         delete pendingRequests[_id];
 
         CallerContractInterface callerContractInstance;
