@@ -102,3 +102,15 @@ async function displayZkSyncBalance(wallet, ethers) {
         console.log(`Verified ETH balance for ${wallet.address()}: 0`)
     } //end if-else()
 } //end function displayZkSyncBalance()
+
+module.exports = {
+    getZkSyncProvider,
+    getEthereumProvider,
+    depositToZkSync,
+    registerAccount,
+    displayZkSyncBalance,
+    transfer,
+    withdrawToEthereum,
+    getFee,
+    initAccount
+}
