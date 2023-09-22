@@ -19,6 +19,8 @@
     const aliceZkSyncWallet = await utils.initAccount(aliceRinkebyWallet, zkSyncProvider, zksync)
   
     console.log('Depositing')
-
+    await utils.depositToZkSync(aliceZkSyncWallet, token, amountToDeposit, ethers)
+    await utils.displayZkSyncBalance(aliceZkSyncWallet, ethers)
+    await utils.registerAccount(aliceZkSyncWallet)
   
   })()
