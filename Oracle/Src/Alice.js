@@ -22,17 +22,17 @@
     console.log(`Alice's initial balance on Rinkeby is: ${tokenSet.formatToken(token, aliceInitialRinkebyBalance)}`)
 
     await aliceZkSyncWallet.approveERC20TokenDeposits(token)
-
+  
     console.log('Depositing')
-    await utils.depositToZkSync(aliceZkSyncWallet, token, amountToDeposit, ethers)
-    await utils.displayZkSyncBalance(aliceZkSyncWallet, ethers)
+    await utils.depositToZkSync(aliceZkSyncWallet, token, amountToDeposit, tokenSet)
+    await utils.displayZkSyncBalance(aliceZkSyncWallet, tokenSet)
     await utils.registerAccount(aliceZkSyncWallet)
-  
+
     console.log('Transferring')
-    const transferFee = await utils.getFee('Transfer', aliceRinkebyWallet.address, token, zkSyncProvider, ethers)
-    await utils.transfer(aliceZkSyncWallet, process.env.BOB_ADDRESS, amountToTransfer, transferFee, token, zksync, ethers)
-  
+    const transferFee = await utils.getFee('Transfer', aliceRinkebyWallet.address, token, zkSyncProvider, tokenSet)
+    await utils.transfer(aliceZkSyncWallet, process.env.BOB_ADDRESS, amountToTransfer, transferFee, token, zksync, tokenSet)
+
     console.log('Withdrawing')
-    const withdrawalFee = await utils.getFee('Withdraw', aliceRinkebyWallet.address, token, zkSyncProvider, ethers)
-    await utils.withdrawToEthereum(aliceZkSyncWallet, amountToWithdraw, withdrawalFee, token, zksync, ethers)
+    const withdrawalFee = await utils.getFee('Withdraw', aliceRinkebyWallet.address, token, zkSyncProvider, tokenSet)
+    await utils.withdrawToEthereum(aliceZkSyncWallet, amountToWithdraw, withdrawalFee, token, zksync, tokenSet)
   })()
