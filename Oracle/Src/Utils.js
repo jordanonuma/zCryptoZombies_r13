@@ -87,7 +87,7 @@ async function withdrawToEthereum(wallet, amountToWithdraw, withdrawalFee, token
     console.log('ZKP verification is complete')
 } //end function withdrawToEthereum()
 
-async function displayZkSyncBalance(wallet, ethers) {
+async function displayZkSyncBalance(wallet, tokenSet) {
     const state = await wallet.getAccountState()
   
     if (state.committed.balances.ETH) {
@@ -101,6 +101,16 @@ async function displayZkSyncBalance(wallet, ethers) {
     } else {
         console.log(`Verified ETH balance for ${wallet.address()}: 0`)
     } //end if-else()
+
+    const committedBbalances = state.committed.balances
+    const verifiedBalances = state.verified.balances
+    for (const property in committedBalances) {
+        console.log(`Committed ${property} balance for ${wallet.address()}: ${tokenSet.formatToken(property, commitedBbalances[property])}`)
+    } //end for()
+    for (const property in verifiedBalances) {
+        console.log(`Verified ${property} balance for ${wallet.address()}: ${tokenSet.formatToken(property, verifiedBalances[property])}`)
+    } //end for()
+
 } //end function displayZkSyncBalance()
 
 module.exports = {
